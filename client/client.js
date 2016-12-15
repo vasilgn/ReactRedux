@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from '../components/App';
+import AppHome from '../components/AppHome.jsx';
 import { Provider } from 'react-redux';
 import configureStore from '../redux/store.js';
 
@@ -22,6 +22,6 @@ const store = configureStore(initialState);
 
 render(
   <Provider store={store}>
-    <App/>
+    <AppHome/>
   </Provider>,
   document.getElementById('app'));

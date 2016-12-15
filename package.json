@@ -8,6 +8,7 @@
   "author": "Vasil Nikolov",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.15.3",
     "babel-core": "^6.20.0",
     "babel-loader": "^6.2.9",
     "babel-preset-es2015": "^6.18.0",
@@ -20,6 +21,7 @@
     "react-redux": "^5.0.1",
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
+    "redux-thunk": "^2.1.0",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2"

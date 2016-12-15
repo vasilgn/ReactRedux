@@ -1,10 +1,11 @@
 import {applyMiddleware, compose, createStore} from 'redux';
 import rootReducer from './reducers/rootReducer.js';
 import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 const finalCreateStore = compose(
   //add middleware
-  applyMiddleware(logger())
+  applyMiddleware(thunk, logger())
 )(createStore);
 
 
