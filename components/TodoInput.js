@@ -12,7 +12,11 @@ class TodoInput extends Component {
   
   handleSubmit(e){
     e.preventDefault();
-    this.props.addTodo(this.state.inputText)
+    if(this.state.inputText.length > 0){
+      this.props.addTodo(this.state.inputText)
+    } else {
+      this.props.getError('Nothing to add')
+    }
   }
   handleChange(e) {
     this.setState({

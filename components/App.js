@@ -20,7 +20,8 @@ class App extends Component {
         </div>
         <br/>
         <h3>New TODO</h3>
-        <TodoInput addTodo={this.props.actions.addTodo} />
+        <TodoInput addTodo={this.props.actions.addTodo}
+                    getError={this.props.actions.getError} />
         <br/>
         <TodoList todos={this.props.todos}
                   actions={this.props.actions} />

@@ -24,6 +24,12 @@ let actions = {
       type: 'CREATE_USER_ID',
       id: Guid.create().toString()
     }
+  },
+  getError: (e)=>{
+    return {
+      type: 'THROW_ERROR',
+      error: e
+    }
   }
 };
 export default actions

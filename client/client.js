@@ -14,7 +14,8 @@ const initialState = {
     id: 0,
     completed: false,
     text: 'Initial todo'
-  }]
+  }],
+  error: ''
 };
 
 const store = configureStore(initialState);

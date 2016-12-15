@@ -22,6 +22,7 @@ const todoReducer = (todos = [], action) =>{
       return todos.filter((todo)=>{
           return todo.id !== action.id
         })
+    
     default:
       return todos
   }
