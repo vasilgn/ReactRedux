@@ -7,7 +7,7 @@ import configureStore from '../redux/store.js';
 let initialState = {
   todos: [{
     id: 0,
-    complete: false,
+    completed: false,
     text: 'Initial todo'
   }]
 };
