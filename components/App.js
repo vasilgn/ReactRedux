@@ -1,14 +1,11 @@
 import React,{Component} from 'react';
 
 export default class App extends Component{
-  constructor(){
-    super();
-  }
   
   render(){
     return(
       <div>
-        <h1>Hi from React!</h1>
+        <h1>Hi1234fas!</h1>
       </div>
     )
   }
