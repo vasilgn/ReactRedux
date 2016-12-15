@@ -1,17 +1,16 @@
 import React, {Component} from 'react';
-import {Actions} from '../actions/actions.js';
 
 
 class LoginForm extends Component {
   onSubmit(e){
     e.preventDefault()
     console.log('logging in');
-    Actions.login({
-      username: e.target[0].value,
-      password: e.target[1].value
-    });
-    e.target[0].value = '';
-    e.target[1].value = '';
+    // Actions.login({
+    //   username: e.target[0].value,
+    //   password: e.target[1].value
+    // });
+    // e.target[0].value = '';
+    // e.target[1].value = '';
   }
   
   render(){

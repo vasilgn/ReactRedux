@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import {Actions} from '../actions/actions.js';
+
 
 class RegisterForm extends Component {
   onSubmit(e){
-    e.preventDefault()
-    console.log('registering in');
-    Actions.register({
-      username: e.target[0].value,
-      password: e.target[1].value,
-      name: e.target[2].value
-    });
-    e.target[0].value = '';
-    e.target[1].value = '';
-    e.target[2].value = '';
-  
+    // e.preventDefault()
+    // console.log('registering in');
+    // Actions.register({
+    //   username: e.target[0].value,
+    //   password: e.target[1].value,
+    //   name: e.target[2].value
+    // });
+    // e.target[0].value = '';
+    // e.target[1].value = '';
+    // e.target[2].value = '';
+    //
   }
   render(){
     return(

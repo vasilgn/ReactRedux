@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import actions from '../../redux/actions.js';
+
 class AppHome extends Component {
   
   render() {
@@ -28,13 +26,4 @@ class AppHome extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  }
-}
-const mapStateToProps = (state) =>{
-  return state
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppHome)
+export default AppHome

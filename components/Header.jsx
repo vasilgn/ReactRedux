@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Actions} from '../actions/actions.js';
 
 
 class Header extends Component {
@@ -10,15 +9,15 @@ class Header extends Component {
   }
   
   onClick(e){
-    if(e.target.text == 'Login'){
-      Actions.showLoginForm()
-    }else if(e.target.text == 'Register'){
-      Actions.showRegisterForm()
-    }else if(e.target.text == 'Home'){
-      Actions.showHomeView()
-    }else if(e.target.text == 'Logout'){
-      Actions.logout(false)
-    }
+    // if(e.target.text == 'Login'){
+    //   Actions.showLoginForm()
+    // }else if(e.target.text == 'Register'){
+    //   Actions.showRegisterForm()
+    // }else if(e.target.text == 'Home'){
+    //   Actions.showHomeView()
+    // }else if(e.target.text == 'Logout'){
+    //   Actions.logout(false)
+    // }
   }
   render() {
     let navMenu = (
