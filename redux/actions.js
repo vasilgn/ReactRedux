@@ -1,3 +1,5 @@
+import Guid from 'guid';
+
 let actions = {
   addTodo: (text) =>{
     return {
@@ -15,6 +17,12 @@ let actions = {
     return {
       type: 'DELETE_TODO',
       id: id
+    }
+  },
+  createNewUserId: () => {
+    return {
+      type: 'CREATE_USER_ID',
+      id: Guid.create().toString()
     }
   }
 };

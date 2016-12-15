@@ -4,7 +4,12 @@ import App from '../components/App';
 import { Provider } from 'react-redux';
 import configureStore from '../redux/store.js';
 
-let initialState = {
+//sequence matters
+const initialState = {
+  user: {
+    username: 'Guest',
+    id: -1
+  },
   todos: [{
     id: 0,
     completed: false,
@@ -12,7 +17,7 @@ let initialState = {
   }]
 };
 
-let store = configureStore(initialState);
+const store = configureStore(initialState);
 
 render(
   <Provider store={store}>
