@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default class MyMessages extends Component{
+class MyMessages extends Component{
   
   render(){
     return(
@@ -48,3 +48,5 @@ export default class MyMessages extends Component{
     )
   }
 }
+
+export default MyMessages

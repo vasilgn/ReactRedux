@@ -17,7 +17,7 @@ class LoginForm extends Component {
     return(
       <div id="viewLogin">
         <h1>Please login</h1>
-        <form onSubmit={this.onSubmit.bind(this)}>
+        <form onSubmit={this.props.onsubmit}>
           <label>
             <div>Username:</div>
             <input type="text" name="username" id="loginUsername" required />

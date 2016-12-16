@@ -19,7 +19,8 @@ class RegisterForm extends Component {
     return(
       <div id="viewRegister">
         <h1>Please register here</h1>
-        <form onSubmit={this.onSubmit.bind(this)}>
+        <form id="register"
+          onSubmit={this.props.onsubmit}>
           <label>
             <div>Username:</div>
             <input type="text" name="username" id="registerUsername" required />
