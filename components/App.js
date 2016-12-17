@@ -3,13 +3,14 @@ import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import MyMessages from './MyMessages.js';
-// import ArchiveSent from './ArchiveSent.js';
-// import SendMessage from './SendMessage.js';
-import ViewUserHome from './ViewUserHome.js';
+
 import ViewWelcome from './ViewWelcome.js';
 import LoginForm from './LoginForm.js';
 import RegisterForm from './RegisterForm.js';
+import ViewUserHome from './ViewUserHome.js';
 
+// import ArchiveSent from './ArchiveSent.js';
+// import SendMessage from './SendMessage.js';
 import {showNodeActions} from '../redux/actions/showNodeActions.js';
 import {loginUser} from '../redux/actions/baseUserActions.js';
 import {logoutUser} from '../redux/actions/baseUserActions.js';
@@ -17,7 +18,7 @@ import {registerUser} from '../redux/actions/baseUserActions.js';
 import {fetchMessages} from '../redux/actions/messagesActions.js';
 
 import {connect} from 'react-redux';
-//import {bindActionCreators} from 'redux';
+import {bindActionCreators} from 'redux';
 
 @connect((store) => {
   return {
@@ -28,10 +29,12 @@ import {connect} from 'react-redux';
   }
 })
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      loggedIn: false
+  static mapStateToProps(state) {
+    return state
+  }
+  static mapDispatchToProps(dispatch) {
+    return {
+      actions: bindActionCreators(actions, dispatch)
     }
   }
   
@@ -82,7 +85,6 @@ class App extends Component {
     switch (e.target.name) {
       case 'myMessages':
         
-        
         this.props.dispatch(fetchMessages(this.props.user))
           .then((e) => {
             console.log(this)
@@ -125,11 +127,7 @@ class App extends Component {
       </div>
     );
   }
-  
 }
-//
-// const mapDispatchToProps = (dispatch) => {
-//   return dispatch
-// }
+
 
 export default App
