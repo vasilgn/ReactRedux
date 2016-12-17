@@ -1,20 +1,18 @@
-import Requester from '../../rest/kinveyRequster.js';
+import {Requester} from '../../rest/kinveyRequster.js';
 
 export function loginUser(data) {
   return function (dispatch) {
     Requester.login(data)
-      .then((response) => {
-        console.log(response)
-        dispatch({type: 'RECEIVE_USER_DATA', payload: response.data});
+      .then((res) => {
+        dispatch({type: 'RECEIVE_USER_DATA', payload: res.data});
       })
       .then(() => {
         dispatch({type: 'SHOW_NODE', payload: {'Main': true}});
       })
-      .catch((response) => {
-      console.log(response)
+      .catch((error) => {
       dispatch({
         type: 'LOGIN_USER_ERROR',
-        payload: response.data
+        payload: error.data.description
       })
     })
   }
@@ -22,31 +20,31 @@ export function loginUser(data) {
 export function logoutUser(user) {
   return function (dispatch) {
     Requester.logout(user)
-      .then((response) => {
-        console.log(response)
+      .then((res) => {
+        console.log(res)
         dispatch({type: 'RECEIVE_USER_DATA', payload: {name: 'Guest'}});
-        dispatch({type: 'SHOW_NODE', payload: {'Main': true}});
-      }).catch((response) => {
-      console.log(response)
-      dispatch({
-        type: 'LOGIN_USER_ERROR',
-        payload: response.data
-      })
-    })
-  }
-}
-export function registerUser(user) {
-  return function (dispatch) {
-    Requester.register(user)
-      .then((response) => {
-        console.log(response)
-        dispatch({type: 'RECEIVE_USER_DATA', payload: response.data});
         dispatch({type: 'SHOW_NODE', payload: {'Main': true}});
       }).catch((error) => {
       console.log(error)
       dispatch({
         type: 'LOGIN_USER_ERROR',
-        payload: error.data
+        payload: error.response.data.description
+      })
+    })
+  }
+}
+export function registerUser(data) {
+  return function (dispatch) {
+    Requester.register(data)
+      .then((res) => {
+        console.log(res)
+        dispatch({type: 'RECEIVE_USER_DATA', payload: res.data});
+        dispatch({type: 'SHOW_NODE', payload: {'Main': true}});
+      }).catch((error) => {
+      console.log(error)
+      dispatch({
+        type: 'LOGIN_USER_ERROR',
+        payload: error.response.data.description
       })
     })
   }

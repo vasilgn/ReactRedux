@@ -1,51 +1,34 @@
 import React, {Component} from 'react';
+import {Helpers} from '../rest/kinveyRequster.js';
 
-class MyMessages extends Component{
+class MyMessages extends Component {
   
-  render(){
-    return(
-      <section id="viewMyMessages">
+  render() {
+    var titles = (<tr><th>From</th> <th>Message</th> <th>DateReceived</th></tr>)
+    let cells = [];
+    this.props.myMessages.map(function (m) {
+      cells.push(
+        <tr>
+          <td>{Helpers.formatSender(m.sender_name, m.sender_username)}</td>
+          <td> {m.text} </td>
+          <td>{ Helpers.formatDate(m._kmd.ect)}</td>
+        </tr>
+      )
+    })
+    return (
+      <div className="messages" id="myMessages">
         <h1>My Messages</h1>
-        <div className="messages" id="myMessages">
-          <table>
-            <thead>
-            <tr>
-              <th>From</th>
-              <th>Message</th>
-              <th>Date Received</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>Maria Ivanova (maria)</td>
-              <td>Hi, Peter</td>
-              <td>29.11.2016 9:43:18</td>
-            </tr>
-            <tr>
-              <td>todor</td>
-              <td>Pesho, how are you?</td>
-              <td>29.11.2016 11:53:44</td>
-            </tr>
-            <tr>
-              <td>Maria Ivanova (maria)</td>
-              <td>Peter, please reply.</td>
-              <td>1.11.2016 14:08:03</td>
-            </tr>
-            <tr>
-              <td>Marin Marinov</td>
-              <td>Peter, I am Marin from Varna.</td>
-              <td>1.03.2015 4:18:43</td>
-            </tr>
-            <tr>
-              <td>Kiril (kiro)</td>
-              <td>Happy new year!</td>
-              <td>1.1.2017 0:00:01</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+        <table>
+          <thead>
+          {titles}
+          </thead>
+          <tbody>
+          {cells}
+          </tbody>
+        </table>
+      </div>
     )
+    
   }
 }
 

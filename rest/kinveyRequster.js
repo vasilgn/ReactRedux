@@ -4,42 +4,41 @@ const kinveyAppSecret = '37d31ffa207b41ef8160f574ef32c656';
 const kinveyServiceBaseUrl = 'https://baas.kinvey.com/';
 const appUrl = kinveyServiceBaseUrl + "user/" + kinveyAppID;
 const authBase64 = btoa(kinveyAppID + ':' + kinveyAppSecret);
-const authUser = btoa('nakov:123')
 
-let Requester = (function () {
+export const Requester = (function () {
   
-  function deleteMessage(msgId) {
+  function deleteMessage(msgId, user) {
 
     return axios({
       method: 'DELETE',
       url: kinveyServiceBaseUrl + 'appdata/' + kinveyAppID + '/messages/' + msgId,
-      headers: {"Authorization": "Kinvey " + sessionStorage.getItem('authToken')},
+      headers: {"Authorization": "Kinvey " + user._kmd.authtoken},
     })
   }
 
-  function newMessage(data) {
+  function newMessage(data, user) {
 
     return axios({
       method: 'POST',
       url: kinveyServiceBaseUrl + 'appdata/' + kinveyAppID + '/messages',
-      headers: {"Authorization": "Kinvey " + sessionStorage.getItem('authToken')},
+      headers: {"Authorization": "Kinvey " + user._kmd.authtoken},
       data:data
     })
   }
-  function listMessagesBySender() {
+  function listMessagesBySender(user) {
 
     return axios({
       method: 'GET',
-      url: kinveyServiceBaseUrl + 'appdata/' + kinveyAppID + '/messages?query=' + JSON.stringify({sender_username: sessionStorage.getItem('username')}),
-      headers: {"Authorization": "Kinvey " + sessionStorage.getItem('authToken')}
+      url: kinveyServiceBaseUrl + 'appdata/' + kinveyAppID + '/messages?query=' + JSON.stringify({sender_username: user.username}),
+      headers: {"Authorization": "Kinvey " + user._kmd.authtoken}
     })
   }
-  function listAllMessagesByRecipient() {
+  function listAllMessagesByRecipient(user) {
 
     return axios({
       method: 'GET',
-      url: kinveyServiceBaseUrl + 'appdata/' + kinveyAppID + '/messages?query=' + JSON.stringify({recipient_username: sessionStorage.getItem('username')}),
-      headers: {"Authorization": "Kinvey " + sessionStorage.getItem('authToken')}
+      url: kinveyServiceBaseUrl + 'appdata/' + kinveyAppID + '/messages?query=' + JSON.stringify({recipient_username: user.username}),
+      headers: {"Authorization": "Kinvey " + user._kmd.authtoken}
     })
   }
 
@@ -83,7 +82,38 @@ let Requester = (function () {
     login,
     register,
     logout,
-    listAllUsers
+    listAllUsers,
+    listAllMessagesByRecipient,
+    listMessagesBySender,
+    deleteMessage,
+    newMessage
   }
 })()
-export default Requester
+
+
+export const Helpers = (function () {
+  
+  function formatDate(dateISO8601) {
+    let date = new Date(dateISO8601);
+    if (Number.isNaN(date.getDate()))
+      return '';
+    return date.getDate() + '.' + padZeros(date.getMonth() + 1) +
+      "." + date.getFullYear() + ' ' + date.getHours() + ':' +
+      padZeros(date.getMinutes()) + ':' + padZeros(date.getSeconds());
+    debugger
+    function padZeros(num) {
+      return ('0' + num).slice(-2);
+    }
+  }
+  
+  function formatSender(name, username) {
+    if (!name)
+      return username;
+    else
+      return username + ' (' + name + ')';
+  }
+  return {
+    formatDate,
+    formatSender
+  }
+})()

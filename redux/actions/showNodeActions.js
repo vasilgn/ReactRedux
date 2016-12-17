@@ -1,5 +1,5 @@
 export function showNodeActions(payload) {
-  return function (dispatch) {
+  return dispatch=> {
     dispatch({
       type: 'SHOW_NODE',
       payload: {

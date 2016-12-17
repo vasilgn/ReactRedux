@@ -1,8 +1,8 @@
 export default function reducer(state = {
   nodes: {
-    'Main': true,
     'Login': false,
-    'Register': false
+    'Register': false,
+    'MyMessages':false,
   }
 }, action) {
   switch (action.type) {
@@ -11,10 +11,11 @@ export default function reducer(state = {
       let nodeKeys = state.nodes;
       let newState = {};
       Object.keys(nodeKeys).map((key,i) => {
-        if (key !== payloadKey) {
-          Object.assign(newState,{ [key]: !action.payload[payloadKey]})
-        } else {
-          Object.assign(newState,{ [key]: action.payload[payloadKey]})
+        if (key === payloadKey) {
+          Object.assign(newState,{ [key]: action.payload})
+        }
+        if(key && (key != payloadKey)){
+          Object.assign(newState,{ [key]: false})
         }
       })
         return {

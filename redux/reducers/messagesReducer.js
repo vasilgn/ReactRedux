@@ -2,7 +2,7 @@ export default function reducer(state = {
   fetching: false,
   fetched: false,
   messages: [],
-  error: null
+  error: null,
 }, action) {
   switch (action.type) {
     case 'FETCH_MESSAGES': {
@@ -17,10 +17,10 @@ export default function reducer(state = {
       return {
         fetching: false,
         fetched: true,
-        messages: [...action.payload]
+        messages: action.payload
       }
-    }
       break;
+    }
     default: {
       return state
     }
