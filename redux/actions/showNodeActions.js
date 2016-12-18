@@ -3,7 +3,7 @@ export function showNodeActions(payload) {
     dispatch({
       type: 'SHOW_NODE',
       payload: {
-        [payload.name] : payload.visible
+        [payload.name] : { display: payload.visible }
       }
     })
   }

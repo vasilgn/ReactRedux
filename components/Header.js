@@ -11,6 +11,7 @@ class Header extends Component {
         <a href="#" className="anonymous" onClick={this.props.onclick}>Register</a>
       </div>
     );
+    
     if(this.props.user._kmd != null){
       navMenu = (
         <div>
@@ -24,7 +25,7 @@ class Header extends Component {
     }
     
     return (
-      <header id="menu">
+      <header id="menu" style={{textAlign: 'center'}}>
         {navMenu}
         <span className="useronly" id="spanMenuLoggedInUser">Welcome, {this.props.user.name} !</span>
       </header>

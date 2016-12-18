@@ -4,11 +4,11 @@ import {Helpers} from '../rest/kinveyRequster.js';
 class MyMessages extends Component {
   
   render() {
-    var titles = (<tr><th>From</th> <th>Message</th> <th>DateReceived</th></tr>)
+    var titles = (<tr><th>From</th><th>Message</th><th>DateReceived</th></tr>)
     let cells = [];
-    this.props.myMessages.map(function (m) {
+    this.props.myMessages.map( (m,i)=> {
       cells.push(
-        <tr>
+        <tr key={i}>
           <td>{Helpers.formatSender(m.sender_name, m.sender_username)}</td>
           <td> {m.text} </td>
           <td>{ Helpers.formatDate(m._kmd.ect)}</td>
@@ -16,9 +16,10 @@ class MyMessages extends Component {
       )
     })
     return (
-      <div className="messages" id="myMessages">
+      <div className="messages"
+           style={this.props.style}>
         <h1>My Messages</h1>
-        <table>
+        <table className="center">
           <thead>
           {titles}
           </thead>

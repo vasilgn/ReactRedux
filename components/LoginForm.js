@@ -2,22 +2,15 @@ import React, {Component} from 'react';
 
 
 class LoginForm extends Component {
-  onSubmit(e){
-    e.preventDefault()
-    console.log('logging in');
-    // Actions.login({
-    //   username: e.target[0].value,
-    //   password: e.target[1].value
-    // });
-    // e.target[0].value = '';
-    // e.target[1].value = '';
-  }
+  
   
   render(){
     return(
-      <div id="viewLogin">
+      <div id="viewLogin" style={this.props.style}>
         <h1>Please login</h1>
-        <form onSubmit={this.props.onsubmit}>
+        <form
+          id="login"
+          onSubmit={this.props.onsubmit}>
           <label>
             <div>Username:</div>
             <input type="text" name="username" id="loginUsername" required />

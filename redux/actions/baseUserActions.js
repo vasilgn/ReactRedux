@@ -1,7 +1,7 @@
 import {Requester} from '../../rest/kinveyRequster.js';
 
 export function loginUser(data) {
-  return function (dispatch) {
+  return dispatch => {
     Requester.login(data)
       .then((res) => {
         dispatch({type: 'RECEIVE_USER_DATA', payload: res.data});
@@ -18,7 +18,7 @@ export function loginUser(data) {
   }
 }
 export function logoutUser(user) {
-  return function (dispatch) {
+  return dispatch => {
     Requester.logout(user)
       .then((res) => {
         console.log(res)
@@ -34,7 +34,7 @@ export function logoutUser(user) {
   }
 }
 export function registerUser(data) {
-  return function (dispatch) {
+  return dispatch => {
     Requester.register(data)
       .then((res) => {
         console.log(res)

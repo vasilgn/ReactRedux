@@ -27,6 +27,7 @@ body {
   margin-right: 10px;
 }
 
+
 #infoBox, #errorBox, #loadingBox {
   width: 80%;
   margin: 10px auto;
@@ -47,9 +48,17 @@ body {
 #errorBox {
   background: #F50;
 }
-
-main > section {
-  padding: 20px 5px;
+#viewSendMessage{
+  width:70%;
+  margin-left:15%;
+  margin-right:15%;
+  margin-bottom:10%;
+}
+table.center {
+  width:70%;
+  margin-left:15%;
+  margin-right:15%;
+  margin-bottom:10%;
 }
 
 section h1 {

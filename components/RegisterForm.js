@@ -2,22 +2,10 @@ import React, {Component} from 'react';
 
 
 class RegisterForm extends Component {
-  onSubmit(e){
-    // e.preventDefault()
-    // console.log('registering in');
-    // Actions.register({
-    //   username: e.target[0].value,
-    //   password: e.target[1].value,
-    //   name: e.target[2].value
-    // });
-    // e.target[0].value = '';
-    // e.target[1].value = '';
-    // e.target[2].value = '';
-    //
-  }
+  
   render(){
     return(
-      <div id="viewRegister">
+      <div id="viewRegister"  style={this.props.style} >
         <h1>Please register here</h1>
         <form id="register"
           onSubmit={this.props.onsubmit}>

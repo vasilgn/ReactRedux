@@ -23,7 +23,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['react', 'es2015', 'es2017', 'react-hmre'],
+          presets: ['react', 'es2015', 'latest', 'es2017', 'react-hmre'],
           plugins: ['transform-es2015-destructuring', 'transform-object-rest-spread', 'transform-decorators-legacy']
         }
       },

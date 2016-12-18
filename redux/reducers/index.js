@@ -9,5 +9,5 @@ export default combineReducers({
   nodes,
   user,
   users,
-  messages
+  messages,
 })

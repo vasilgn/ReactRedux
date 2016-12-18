@@ -1,109 +1,40 @@
 import React, {Component} from 'react';
 import Header from './Header.js';
 import Main from './Main.js';
-import Footer from './Footer.js';
 import MyMessages from './MyMessages.js';
 
 import ViewWelcome from './ViewWelcome.js';
 import LoginForm from './LoginForm.js';
 import RegisterForm from './RegisterForm.js';
 import ViewUserHome from './ViewUserHome.js';
+import SendMessage from './SendMessage.js';
 
 // import ArchiveSent from './ArchiveSent.js';
-// import SendMessage from './SendMessage.js';
-import {showNodeActions} from '../redux/actions/showNodeActions.js';
-import {loginUser} from '../redux/actions/baseUserActions.js';
-import {logoutUser} from '../redux/actions/baseUserActions.js';
-import {registerUser} from '../redux/actions/baseUserActions.js';
-import {fetchMessages} from '../redux/actions/messagesActions.js';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import actions from '../redux/actions/index.js'
 
-@connect((store) => {
+const mapStateToProps = (store) => {
   return {
     user: store.user.user,
     nodes: store.nodes.nodes,
-    users: store.users,
-    myMessages: store.messages.messages
+    users: store.users.users,
+    myMessages: store.messages.messages,
   }
-})
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(actions, dispatch)
+  }
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 class App extends Component {
-  static mapStateToProps(state) {
-    return state
-  }
-  static mapDispatchToProps(dispatch) {
-    return {
-      actions: bindActionCreators(actions, dispatch)
-    }
-  }
-  
-  onSubmitHandler(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.persist();
-    console.log(e.target[0])
-    if (e.target['id'] == 'register') {
-      let userData = {
-        username: e.target[0].value,
-        password: e.target[1].value,
-        name: e.target[2].value
-      };
-      console.log(userData);
-      this.props.dispatch(registerUser(userData));
-    } else {
-      this.props.dispatch(loginUser({
-        username: e.target[0].value,
-        password: e.target[1].value
-      }))
-    }
-    
-  }
-  
-  onClickHandler(e) {
-    switch (e.target.text) {
-      case 'Login':
-        this.props.dispatch(showNodeActions({name: e.target.text, visible: true}));
-        break;
-      case 'Register':
-        this.props.dispatch(showNodeActions({name: e.target.text, visible: true}));
-        break;
-      case 'Home':
-        this.props.dispatch(showNodeActions({name: 'Main', visible: true}));
-        break;
-      case 'Logout':
-        this.props.dispatch(logoutUser(this.props.user));
-        break;
-      default:
-        break;
-    }
-  }
-  
-  userActionsHandler(e) {
-    
-    console.log(e.target.name)
-    switch (e.target.name) {
-      case 'myMessages':
-        
-        this.props.dispatch(fetchMessages(this.props.user))
-          .then((e) => {
-            console.log(this)
-            this.props.dispatch(showNodeActions({'MyMessages': true}))
-          })
-        break;
-      case 'sendMessage':
-        this.props.dispatch(logoutUser(this.props.user));
-        break;
-      case 'archived':
-        this.props.dispatch(logoutUser(this.props.user));
-        break;
-      default:
-        break;
-    }
-  }
   
   render() {
-    const {user, nodes} = this.props
+    const {user, nodes} = this.props;
     
     return (
       <div className="App">
@@ -114,20 +45,110 @@ class App extends Component {
           <div id="loadingBox">Loading ...</div>
           <div id="infoBox">Info</div>
           <div id="errorBox">Error</div>
-          {nodes['Login'] ? <LoginForm onsubmit={this.onSubmitHandler.bind(this)}/> : null}
-          {nodes['Register'] ? <RegisterForm onsubmit={this.onSubmitHandler.bind(this)}/> : null}
+          
           {this.props.user.name !== 'Guest' ?
             <ViewUserHome user={this.props.user}
                           onclick={this.userActionsHandler.bind(this)}/> :
             <ViewWelcome name={this.props.user.name}/> }
-          {nodes['MyMessages'] ? <MyMessages myMessages={this.props.myMessages}/> : null}
+          
+          <LoginForm
+            style={nodes['Login']}
+            onsubmit={this.onSubmitHandler.bind(this)}/>
+          <RegisterForm
+            style={nodes['Register']}
+            onsubmit={this.onSubmitHandler.bind(this)}/>
+          
+          <MyMessages
+            style={nodes['MyMessages']}
+            myMessages={this.props.myMessages}/>
+          <SendMessage
+            style={nodes['SendMessage']}
+            onsubmit={this.onSubmitHandler.bind(this)}
+            users={this.props.users}/>
         
         </Main>
-        <Footer/>
+        <footer>Messaging System - Simple SPA Application</footer>
       </div>
     );
   }
+  
+  onSubmitHandler(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.persist();
+    
+    if (e.target['id'] == 'register') {
+      let userData = {
+        username: e.target[0].value,
+        password: e.target[1].value,
+        name: e.target[2].value
+      };
+      console.log(userData);
+      this.props.actions.registerUser(userData);
+    } else if (e.target['id'] == 'login') {
+      this.props.actions.loginUser({
+        username: e.target[0].value,
+        password: e.target[1].value
+      })
+    } else if (e.target['id'] == 'formSendMessage') {
+      //e.target[0].selectedOptions.item(index here).value
+      console.dir(e.target[1].value)
+      let body = {
+        sender_username: this.props.user.username,
+        sender_name: this.props.user.name,
+        recipient_username: e.target[0].selectedOptions.item(0).value,
+        text: e.target[1].value
+      }
+      this.props.actions.sendMessage(body, this.props.user._kmd.authtoken)
+      e.target[1].value = '';
+    }
+    
+  }
+  
+  onClickHandler(e) {
+    console.log(e);
+    switch (e.target.text) {
+      case 'Login':
+        this.props.actions.showNodeActions({name: e.target.text, visible: 'block'});
+        break;
+      case 'Register':
+        this.props.actions.showNodeActions({name: e.target.text, visible: 'block'});
+        break;
+      case 'Home':
+        this.props.actions.showNodeActions({name: 'Main', visible: 'block'});
+        break;
+      case 'Logout':
+        this.props.actions.logoutUser(this.props.user);
+        break;
+      default:
+        break;
+    }
+  }
+  
+  userActionsHandler(e) {
+    e.preventDefault()
+    switch (e.target.name) {
+      case 'myMessages':
+        
+        this.props.actions.fetchMessages(this.props.user)
+          .then((e) => {
+            this.props.actions.showNodeActions({name: 'MyMessages', visible: 'block'})
+          })
+        break;
+      case 'sendMessage':
+        this.props.actions.fetchUsers(this.props.user._kmd.authtoken)
+          .then((e) => {
+            
+            this.props.actions.showNodeActions({name: 'SendMessage', visible: 'block'})
+          })
+        break;
+      case 'archived':
+        this.props.actions.logoutUser(this.props.user);
+        break;
+      default:
+        break;
+    }
+  }
+  
 }
-
-
 export default App

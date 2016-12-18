@@ -16,12 +16,12 @@ export const Requester = (function () {
     })
   }
 
-  function newMessage(data, user) {
+  function newMessage(data, token) {
 
     return axios({
       method: 'POST',
       url: kinveyServiceBaseUrl + 'appdata/' + kinveyAppID + '/messages',
-      headers: {"Authorization": "Kinvey " + user._kmd.authtoken},
+      headers: {"Authorization": "Kinvey " + token},
       data:data
     })
   }
@@ -42,11 +42,12 @@ export const Requester = (function () {
     })
   }
 
-  function listAllUsers() {
+  function listAllUsers(token) {
+    console.log(token)
     return axios({
       method: 'GET',
       url: appUrl,
-      headers: {"Authorization": "Kinvey " + sessionStorage.getItem('authToken')}
+      headers: {"Authorization": "Kinvey " + token}
     })
   }
   function login(data) {
