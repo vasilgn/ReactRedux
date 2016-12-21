@@ -16,20 +16,28 @@ export function fetchUsers(token) {
       })
   }
 }
-export function sendMessage(data,token) {
+export function sendMessage(data,token, currentState) {
   console.log('here')
   return dispatch => {
-    Requester.newMessage(data,token)
-    //   .then((res) => {
-    //     console.log(res)
-    //     dispatch({type: 'RECEIVE_USER_DATA', payload: res.data});
-    //     dispatch({type: 'SHOW_NODE', payload: {'Main': true}});
-    //   }).catch((error) => {
-    //   console.log(error)
-    //   dispatch({
-    //     type: 'LOGIN_USER_ERROR',
-    //     payload: error.response.data.description
-    //   })
-    // })
+    return Requester.newMessage(data,token)
+      .then((res) => {
+        console.log(currentState)
+        dispatch({type: 'RECEIVE_MESSAGES', payload: [...currentState, res.data] });
+      }).catch((error) => {
+      console.log(error)
+    })
+  }
+}
+export function deleteMessage(msgId,user) {
+  console.log('here')
+  console.log('here')
+  return dispatch => {
+    return Requester.deleteMessage(msgId,user)
+      .then((res) => {
+      console.log('Success delete')
+      console.log(res)
+      }).catch((error) => {
+        console.log(error)
+      })
   }
 }

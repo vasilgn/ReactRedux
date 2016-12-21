@@ -8,6 +8,7 @@ import LoginForm from './LoginForm.js';
 import RegisterForm from './RegisterForm.js';
 import ViewUserHome from './ViewUserHome.js';
 import SendMessage from './SendMessage.js';
+import ArchiveSent from './ArchiveSent.js';
 
 // import ArchiveSent from './ArchiveSent.js';
 
@@ -21,6 +22,7 @@ const mapStateToProps = (store) => {
     nodes: store.nodes.nodes,
     users: store.users.users,
     myMessages: store.messages.messages,
+    sendMessages: store.sendMessages.sendMessages,
   }
 }
 
@@ -50,7 +52,6 @@ class App extends Component {
             <ViewUserHome user={this.props.user}
                           onclick={this.userActionsHandler.bind(this)}/> :
             <ViewWelcome name={this.props.user.name}/> }
-          
           <LoginForm
             style={nodes['Login']}
             onsubmit={this.onSubmitHandler.bind(this)}/>
@@ -65,13 +66,25 @@ class App extends Component {
             style={nodes['SendMessage']}
             onsubmit={this.onSubmitHandler.bind(this)}
             users={this.props.users}/>
+  
+          <ArchiveSent
+            style={nodes['ArchiveSent']}
+            deleteClickHandler={this.deleteHandler.bind(this)}
+            sendMessages={this.props.sendMessages}/>
         
         </Main>
         <footer>Messaging System - Simple SPA Application</footer>
       </div>
     );
   }
-  
+  deleteHandler(messageId,e){
+    console.log(e)
+    console.log(messageId)
+    console.log(this)
+    this.props.actions.deleteMessage(messageId,this.props.user)
+    
+    
+  }
   onSubmitHandler(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -99,14 +112,17 @@ class App extends Component {
         recipient_username: e.target[0].selectedOptions.item(0).value,
         text: e.target[1].value
       }
-      this.props.actions.sendMessage(body, this.props.user._kmd.authtoken)
+      this.props.actions.sendMessage(body, this.props.user._kmd.authtoken, this.props.myMessages)
+        .then((res)=>{
+        console.log(res)
+          this.props.actions.showNodeActions({name: 'MyMessages', visible: 'block'})
+        })
       e.target[1].value = '';
     }
     
   }
   
   onClickHandler(e) {
-    console.log(e);
     switch (e.target.text) {
       case 'Login':
         this.props.actions.showNodeActions({name: e.target.text, visible: 'block'});
@@ -120,6 +136,26 @@ class App extends Component {
       case 'Logout':
         this.props.actions.logoutUser(this.props.user);
         break;
+      case 'My Messages':
+        console.log(e.target.text)
+        this.props.actions.fetchMyMessages(this.props.user)
+          .then((e) => {
+            this.props.actions.showNodeActions({name: 'MyMessages', visible: 'block'})
+          })
+        break;
+      case 'Archive (Sent)':
+        this.props.actions.fetchMySendMessages(this.props.user)
+          .then((e) => {
+            this.props.actions.showNodeActions({name: 'ArchiveSent', visible: 'block'})
+          })
+        break;
+      case 'Send Message':
+        console.log(e.target.text)
+        this.props.actions.fetchUsers(this.props.user._kmd.authtoken)
+          .then((e) => {
+            this.props.actions.showNodeActions({name: 'SendMessage', visible: 'block'})
+          })
+        break;
       default:
         break;
     }
@@ -129,8 +165,7 @@ class App extends Component {
     e.preventDefault()
     switch (e.target.name) {
       case 'myMessages':
-        
-        this.props.actions.fetchMessages(this.props.user)
+        this.props.actions.fetchMyMessages(this.props.user)
           .then((e) => {
             this.props.actions.showNodeActions({name: 'MyMessages', visible: 'block'})
           })
@@ -138,12 +173,14 @@ class App extends Component {
       case 'sendMessage':
         this.props.actions.fetchUsers(this.props.user._kmd.authtoken)
           .then((e) => {
-            
             this.props.actions.showNodeActions({name: 'SendMessage', visible: 'block'})
           })
         break;
       case 'archived':
-        this.props.actions.logoutUser(this.props.user);
+        this.props.actions.fetchMySendMessages(this.props.user)
+          .then((e) => {
+            this.props.actions.showNodeActions({name: 'ArchiveSent', visible: 'block'})
+          })
         break;
       default:
         break;

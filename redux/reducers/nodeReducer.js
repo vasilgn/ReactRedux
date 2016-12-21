@@ -1,5 +1,8 @@
 export default function reducer(state = {
   nodes: {
+    'Main': {
+      display: 'block'
+    },
     'Login': {
       display: 'none'
     },
@@ -12,6 +15,10 @@ export default function reducer(state = {
     'SendMessage':{
       display: 'none'
     },
+    'ArchiveSent':{
+      display: 'none'
+    },
+    
   }
 }, action) {
   switch (action.type) {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {fetchMessages} from '../redux/actions/messagesActions.js';
+import {fetchMyMessages} from '../redux/actions/messagesActions.js';
 import MyMessages from './MyMessages.js';
 
 class ViewUserHome extends Component{

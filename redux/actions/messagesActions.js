@@ -1,6 +1,6 @@
 import {Requester} from '../../rest/kinveyRequster.js';
 
-export function fetchMessages(user) {
+export function fetchMyMessages(user) {
   return dispatch => {
     dispatch({type: 'FETCH_MESSAGES'})
     return Requester.listAllMessagesByRecipient(user)
@@ -12,4 +12,17 @@ export function fetchMessages(user) {
       })
   }
   
+}
+export function fetchMySendMessages(user) {
+  return dispatch => {
+    dispatch({type: 'FETCH_SEND_MESSAGES'})
+    return Requester.listMessagesBySender(user)
+      .then((res) => {
+        console.log()
+        dispatch({type: 'RECEIVE_SEND_MESSAGES', payload: res.data})
+      })
+      .catch((error) => {
+        dispatch({type: 'FETCH_SEND_MESSAGES_ERROR', payload: error});
+      })
+  }
 }

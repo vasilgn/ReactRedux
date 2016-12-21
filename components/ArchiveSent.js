@@ -1,40 +1,34 @@
 import React, { Component } from 'react';
-
+import {Helpers} from '../rest/kinveyRequster.js';
 class ArchiveSent extends Component{
+  
+  
   render(){
+  
+    var titles = (<tr><th>To</th><th>Message</th><th>Date Sent</th><th>Actions</th></tr>)
+    let cells = [];
+    this.props.sendMessages.map( (m,i)=> {
+      cells.push(
+        <tr key={i}>
+          <td>{m.recipient_username}</td>
+          <td> {m.text} </td>
+          <td>{ Helpers.formatDate(m._kmd.ect)}</td>
+          <td><button onClick={this.props.deleteClickHandler.bind(null, m._id)}>Delete</button></td>
+        </tr>
+      )
+    })
+    
     return(
-      <div id="viewArchiveSent">
+      <div id="viewArchiveSent" style={this.props.style}>
         <h1>Archive (Sent Messages)</h1>
-        <div className="messages" id="sentMessages">
-          <table>
+        <div className="messages"
+             id="sentMessages" >
+          <table className="center">
             <thead>
-            <tr>
-              <th>To</th>
-              <th>Message</th>
-              <th>Date Sent</th>
-              <th>Actions</th>
-            </tr>
+            {titles}
             </thead>
             <tbody>
-            <tr>
-              <td>peter</td>
-              <td>Hi, Peter</td>
-              <td>29.11.2016 9:43:18</td>
-              <td><button>Delete</button></td>
-            </tr>
-            <tr>
-              <td>todor</td>
-              <td>Todor, how are you?</td>
-              <td>3.07.2016 8:06:03</td>
-              <td><button>Delete</button></td>
-            </tr>
-            <tr>
-              <td>maria</td>
-              <td>Party this evening?</td>
-              <td>9.06.2016 19:55:59</td>
-              <td><button>Delete</button></td>
-            </tr>
-        
+            {cells}
             </tbody>
           </table>
         </div>
